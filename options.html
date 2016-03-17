@@ -5,87 +5,92 @@
 </head>
 
   <style type="text/css">
-#wrap {
-   width:950px;
-   margin:0 auto;
-}
-#left_col {
-   float:left;
-   width:750px;
-}
-#right_col {
-   float:right;
-   width:200px;
-}
-</style>
+    #wrap {
+      width:950px;
+      margin:0 auto;
+    }
+    #left_col {
+      float:left;
+      width:750px;
+    }
+    #right_col {
+      float:right;
+      width:200px;
+    }
+  </style>
 
 <div id="wrap">
     <div id="left_col">
         <font size="18">Website-Sequence Options</font>
 
-  <br>
-  <br>
+	<br>
+	<br>
 
-<form>
-  New Sequence Name:<br>
-  <input type="text" name="newname" id="newname">
-</form>
+	<form>
+	  New Sequence Name:<br>
+	  <input type="text" name="newname" id="newname">
+	<!--</form>-->
+	  <br>
+	  <br>
+	  <button id="newlist">New Sequence</button>
+	</form>
+	<br>
+	<br>
   
-  <button id="newlist">New Sequence</button>
-
-  <br>
-  <br>
-  
-  <big>Sequences:</big>
-  <br>
-  <select id="sequencechosen">
+	<big>Sequences:</big>
+	<br>
+	<select id="sequencechosen">
     
-  </select>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <button id="remove">Remove Sequence</button>
+	</select>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<button id="remove">Remove Sequence</button>
+	
+	<br>
+	<br>
+	
+	<div id="status"></div>
+	
+	Add new website: <br>
+	Title: <input type="text" name="newtitle" id="newtitle">
+	&nbsp;&nbsp;
+	URL: <input type="text" name="newurl" id="newurl" size=35>
+	<br>
+	
+	<input type="checkbox" name="days" value="s">
+	<label>Sunday</label>
+	<input type="checkbox" name="days" value="m">
+	<label>Monday</label>
+	<input type="checkbox" name="days" value="t">
+	<label>Tuesday</label>
+	<input type="checkbox" name="days" value="w">
+	<label>Wednesday</label>
+	<input type="checkbox" name="days" value="h">
+	<label>Thursday</label>
+	<input type="checkbox" name="days" value="f">
+	<label>Friday</label>
+	<input type="checkbox" name="days" value="a">
+	<label>Saturday</label>
+	<br>
+	<button id="add">Add</button>
+	at Location: <input type="text" name="webindex" id="webindex" size="1">
+	<hr>
+	
+	<div id="websites">
+	  
+	</div>
 
-  <br>
-  <br>
-
-  <div id="status"></div>
-
-  Add new website: <br>
-  Title: <input type="text" name="newtitle" id="newtitle">
-  &nbsp;&nbsp;
-  URL: <input type="text" name="newurl" id="newurl" size=35>
-  <br>
-
-  <input type="checkbox" name="days" value="s">
-  <label>Sunday</label>
-  <input type="checkbox" name="days" value="m">
-  <label>Monday</label>
-  <input type="checkbox" name="days" value="t">
-  <label>Tuesday</label>
-  <input type="checkbox" name="days" value="w">
-  <label>Wednesday</label>
-  <input type="checkbox" name="days" value="h">
-  <label>Thursday</label>
-  <input type="checkbox" name="days" value="f">
-  <label>Friday</label>
-  <input type="checkbox" name="days" value="a">
-  <label>Saturday</label>
-  <br>
-  <button id="add">Add</button>
-  at Location: <input type="text" name="webindex" id="webindex" size="1">
-  <hr>
-
-  <div id="websites">
-
-  </div>
-
-  <br>
-  <br>
+	<br>
+	<br>
   
-<script src="options.js"></script>
+	<script src="options.js"></script>
     </div>
+
+    
     <div id="right_col">
-        <div style="text-align: right;"><IMG SRC="icon.png" ALT="image" style="PADDING-TOP: 75px"></div></a>
+      <div style="text-align: right;"><IMG SRC="icon.png" ALT="image" style="PADDING-TOP: 75px"></div></a>
     </div>
+
+
 </div>
   
 
