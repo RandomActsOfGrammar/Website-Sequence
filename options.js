@@ -250,25 +250,28 @@ function removeSequence(){
 	sequences: []
     }, function(items){
 	var name = document.getElementById("sequencechosen").value;
-	var seqind = findSequence(name, items.sequences);
-	var ind = seqind[1];
-	var sequences1 = items.sequences;
-	sequences1.splice(ind, 1);
-	var select = document.getElementById("sequencechosen");
-	var selectind = 0;
-	var found = false;
-	while (!found && selectind<select.length){
-	    if (select[selectind].value == name){
-		found = true;
-		selectind--;
+	var reallyRemove = confirm("Are you sure you want to remove the sequence " + name + "?");
+	if (reallyRemove){
+	    var seqind = findSequence(name, items.sequences);
+	    var ind = seqind[1];
+	    var sequences1 = items.sequences;
+	    sequences1.splice(ind, 1);
+	    var select = document.getElementById("sequencechosen");
+	    var selectind = 0;
+	    var found = false;
+	    while (!found && selectind<select.length){
+		if (select[selectind].value == name){
+		    found = true;
+		    selectind--;
+		}
+		selectind++;
 	    }
-	    selectind++;
+	    select.remove(selectind); //remove from options
+	    updateWebsiteList();
+	    chrome.storage.local.set({
+		sequences: sequences1
+	    }, function(){});
 	}
-	select.remove(selectind); //remove from options
-	updateWebsiteList();
-	chrome.storage.local.set({
-	    sequences: sequences1
-	}, function(){});
     });
 }
 
