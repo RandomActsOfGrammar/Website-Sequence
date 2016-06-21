@@ -319,6 +319,13 @@ app.controller('optionsPageController', function($scope){
 	$scope.sequences = items.sequences;
 	$scope.currentSequence = $scope.sequences[0];
 	$scope.currentSequenceWebsites = $scope.copyArray($scope.currentSequence[0][1]);
+	$scope.newWebsiteS = '';
+	$scope.newWebsiteM = '';
+	$scope.newWebsiteT = '';
+	$scope.newWebsiteW = '';
+	$scope.newWebsiteH = '';
+	$scope.newWebsiteF = '';
+	$scope.newWebsiteA = '';
 	$scope.$apply();
     });
 
@@ -392,8 +399,6 @@ app.controller('optionsPageController', function($scope){
 	newWebsite.H = $scope.newWebsiteH;
 	newWebsite.F = $scope.newWebsiteF;
 	newWebsite.A = $scope.newWebsiteA;
-	console.log($scope.newWebsiteS, $scope.newWebsiteM, $scope.newWebsiteT, $scope.newWebsiteW, $scope.newWebsiteH, $scope.newWebsiteF, $scope.newWebsiteA);
-	console.log(newWebsite.F);
 	$scope.newWebsiteS = '';
 	$scope.newWebsiteM = '';
 	$scope.newWebsiteT = '';
