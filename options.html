@@ -1,7 +1,11 @@
 <html>
 
 <head> 
-    <title>Website-Sequence Options</title> 
+  <title>Website-Sequence Options</title>
+
+  <script src="js/angular.js"></script>
+  <script src="js/options.js"></script>
+  <script src="js/jquery.min.js"></script>
 </head>
 
   <style type="text/css">
@@ -13,10 +17,32 @@
       float:left;
       width:750px;
     }
+    #sequencechosen {
+      width: 200px;
+      margin-right: 10px;
+    }
     #websites {
       width:750px;
       height:320px;
       overflow:auto;
+    }
+    #websites input:checkbox {
+      padding: 0;
+      margin: -2px;
+    }
+    #websites label {
+      padding: 0;
+      margin: -2px;
+    }
+    #websites p {
+      margin: 0;
+      padding: 0;
+      width: 15px;
+      display: inline-block;
+      text-align: right;
+    }
+    #websites button {
+      margin-left: 5px;
     }
     #right_col {
       float:right;
@@ -24,7 +50,7 @@
     }
   </style>
 
-<div id="wrap">
+<div id="wrap" ng-app="optionsPageApp" ng-controller="optionsPageController">
     <div id="left_col">
         <font size="18">Website-Sequence Options</font>
 
@@ -32,14 +58,14 @@
 	<br>
 
 	<form id="NewSequenceForm">
-	  New Sequence Name:<br>
-	  <input type="text" name="newname" id="newname">
+	    New Sequence Name:<br>
+	    <input type="text" name="newname" id="newname" data-ng-model="newSequenceName">
+	    
+	    <br>
+	    <br>
 	  
-	  <br>
-	  <br>
-	  
-	  <button id="newlist">New Sequence</button>
-
+	    <button id="newlist" data-ng-click="addSequence()">New Sequence</button>
+	    
 	</form>
 	
 	<br>
@@ -47,57 +73,75 @@
   
 	<big>Sequences:</big>
 	<br>
-	<select id="sequencechosen">
-    
+	<select id="sequencechosen" data-ng-model="currentSequence" data-ng-options="seq as seq[0] for seq in sequences">
 	</select>
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<button id="remove">Remove Sequence</button>
-	
+	<button id="remove" data-ng-click="removeCurrentSequence()">Remove Sequence</button>
+
 	<br>
 	<br>
 	
-	<div id="status"></div>
+	<div id="status"></div> <!--?-->
 	
 	Add new website: <br>
-	Title: <input type="text" name="newtitle" id="newtitle">
+	Title: <input type="text" name="newtitle" id="newtitle" data-ng-model="newWebsiteTitle">
 	&nbsp;&nbsp;
-	URL: <input type="text" name="newurl" id="newurl" size=35>
+	URL: <input type="text" name="newurl" id="newurl" data-ng-model="newWebsiteUrl" size="35">
 	<br>
 	
-	<input type="checkbox" name="days" value="s">
+	<input type="checkbox" name="days" data-ng-false-value="''" data-ng-true-value="'s'" data-ng-model="newWebsiteS">
 	<label>Sunday</label>
-	<input type="checkbox" name="days" value="m">
+	<input type="checkbox" name="days" data-ng-false-value="''" data-ng-true-value="'m'" data-ng-model="newWebsiteM">
 	<label>Monday</label>
-	<input type="checkbox" name="days" value="t">
+	<input type="checkbox" name="days" data-ng-false-value="''" data-ng-true-value="'t'" data-ng-model="newWebsiteT">
 	<label>Tuesday</label>
-	<input type="checkbox" name="days" value="w">
+	<input type="checkbox" name="days" data-ng-false-value="''" data-ng-true-value="'w'" data-ng-model="newWebsiteW">
 	<label>Wednesday</label>
-	<input type="checkbox" name="days" value="h">
+	<input type="checkbox" name="days" data-ng-false-value="''" data-ng-true-value="'h'" data-ng-model="newWebsiteH">
 	<label>Thursday</label>
-	<input type="checkbox" name="days" value="f">
+	<input type="checkbox" name="days" data-ng-false-value="''" data-ng-true-value="'f'" data-ng-model="newWebsiteF">
 	<label>Friday</label>
-	<input type="checkbox" name="days" value="a">
+	<input type="checkbox" name="days" data-ng-false-value="''" data-ng-true-value="'a'" data-ng-model="newWebsiteA">
 	<label>Saturday</label>
 	<br>
-	<button id="add">Add</button>
-	at Location: <input type="text" name="webindex" id="webindex" size="1">
+	<button id="add" data-ng-click="addNewWebsite()">Add</button>
+	at Location: <input type="text" name="webindex" id="webindex" data-ng-model="newWebsiteIndex" size="1"
+			    title="If the index is an index within the list, the new website is placed at the given index and pushes the website at that location and those after it down.">
 	<hr>
 
 	
 	<div id="websites">
-	  
+	  <div data-ng-repeat="website in currentSequenceWebsites track by $index">
+	      <p>{{$index+1}}.</p>
+	      <input type="text" style="font-size:12px;" data-ng-model="website.title">
+	      <input type="text" style="font-size:12px" size="35" data-ng-model="website.url">
+	      <input type="checkbox" data-ng-init="website.S=website.days.includes('s')?'s':''" data-ng-model="website.S"
+		     data-ng-true-value="'s'" data-ng-false-value="''"><label>S</label>
+	      <input type="checkbox" data-ng-init="website.M=website.days.includes('m')?'m':''" data-ng-model="website.M"
+		     data-ng-true-value="'m'" data-ng-false-value="''"><label>M</label>
+	      <input type="checkbox" data-ng-init="website.T=website.days.includes('t')?'t':''" data-ng-model="website.T"
+		     data-ng-true-value="'t'" data-ng-false-value="''"><label>T</label>
+	      <input type="checkbox" data-ng-init="website.W=website.days.includes('w')?'w':''" data-ng-model="website.W"
+		     data-ng-true-value="'w'" data-ng-false-value="''"><label>W</label>
+	      <input type="checkbox" data-ng-init="website.H=website.days.includes('h')?'h':''" data-ng-model="website.H"
+		     data-ng-true-value="'h'" data-ng-false-value="''"><label>T</label>
+	      <input type="checkbox" data-ng-init="website.F=website.days.includes('f')?'f':''" data-ng-model="website.F"
+		     data-ng-true-value="'f'" data-ng-false-value="''"><label>F</label>
+	      <input type="checkbox" data-ng-init="website.A=website.days.includes('a')?'a':''" data-ng-model="website.A"
+		     data-ng-true-value="'a'" data-ng-false-value="''"><label>S</label>
+	      <button class="save"data-ng-click="saveWebsiteChanges($index,website.title,website.url,website.S,website.M,website.T,website.W,website.H,website.F,website.A)">Save</button>
+	      <button class="remove" data-ng-click="removeWebsite($index)">Remove</button>
+	    <hr>
+	  </div>
 	</div>
 
 	
 	<br>
 	<br>
-  
-	<script src="options.js"></script>
-    </div>
 
+    </div>
     
     <div id="right_col">
-      <div style="text-align: right;"><IMG SRC="icon.png" ALT="image" style="PADDING-TOP: 75px"></div></a>
+        <div style="text-align: right;"><IMG SRC="icon.png" ALT="image" style="PADDING-TOP: 75px"></div></a>
     </div>
 
 
