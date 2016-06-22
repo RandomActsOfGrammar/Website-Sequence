@@ -22,7 +22,7 @@
 	    <br>
 	    <br>
 	  
-	    <button id="newlist" data-ng-click="addSequence()">New Sequence</button>
+	    <button id="newlist" class="add" data-ng-click="addSequence()">New Sequence</button>
 	    
 	</form>
 	
@@ -31,20 +31,30 @@
   
 	<big>Sequences:</big>
 	<br>
-	<select id="sequencechosen" data-ng-model="currentSequence" data-ng-options="seq as seq[0] for seq in sequences">
-	</select>
-	<button id="remove" data-ng-click="removeCurrentSequence()">Remove Sequence</button>
+	<div class="colHolder">
+	  <div class="leftColHolder">
+	    <select id="sequencechosen" data-ng-model="currentSequence" data-ng-options="seq as seq[0] for seq in sequences">
+	    </select>
+	  </div>
+	  <div class="rightColHolder">
+	    <button id="remove" class="remove" data-ng-click="removeCurrentSequence()">Remove Sequence</button>
+	  </div>
+	</div>
 
-	<br>
 	<br>
 	
 	<div id="status"></div> <!--?-->
 	
-	Add new website: <br>
-	Title: <input type="text" name="newtitle" id="newtitle" data-ng-model="newWebsiteTitle">
-	&nbsp;&nbsp;
-	URL: <input type="text" name="newurl" id="newurl" data-ng-model="newWebsiteUrl" size="35">
+	Add new website:
 	<br>
+	<div class="colHolder">
+	  <div class="leftColHolder">
+	    Title: <input type="text" name="newtitle" id="newtitle" data-ng-model="newWebsiteTitle">
+	  </div>
+	  <div class="rightColHolder">
+	    URL: <input type="text" name="newurl" id="newurl" data-ng-model="newWebsiteUrl" size="35">
+	  </div>
+	</div>
 	
 	<input type="checkbox" name="days" data-ng-false-value="''" data-ng-true-value="'s'" data-ng-model="newWebsiteS">
 	<label>Sunday</label>
@@ -61,7 +71,7 @@
 	<input type="checkbox" name="days" data-ng-false-value="''" data-ng-true-value="'a'" data-ng-model="newWebsiteA">
 	<label>Saturday</label>
 	<br>
-	<button id="add" data-ng-click="addNewWebsite()">Add</button>
+	<button id="add" class="add" data-ng-click="addNewWebsite()">Add</button>
 	at Location: <input type="text" name="webindex" id="webindex" data-ng-model="newWebsiteIndex" size="1"
 			    title="If the index is an index within the list, the new website is placed at the given index and pushes the website at that location and those after it down.">
 	<hr>
