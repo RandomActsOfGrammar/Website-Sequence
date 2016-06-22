@@ -1,0 +1,16 @@
+#division {
+    width: 400px;
+    margin: 0 auto;
+}
+#sequences {
+    width: 400px;
+    text-align: center;
+    max-height: 200px;
+    overflow-y: auto;
+}
+.chooseSeq {
+    min-width: 50px;
+}
+#picture {
+    width: 400px;
+}

@@ -4,29 +4,21 @@
 <html>
 
   <head>
-      <style type="text/css">
-	#division {
-	width:400px;
-	margin:0 auto;
-	}
-	#sequences {
-	width:400px;
-	}
-	#picture {
-	width:400px;
-	}
-      </style>
+    <script src="js/angular.min.js"></script>
+    <script src="js/sequenceChoosing.js"></script>
 
-      <title>Sequence Choices</title> 
+    <link rel="stylesheet" type="text/css" href="css/sequenceChoosing.css">
+      
+    <title>Sequence Choices</title> 
   </head>
 
 
 
-  <body>
+  <body data-ng-app="sequenceChoosingApp" data-ng-controller="sequenceChoosingController">
 
     <div id="division">
 
-      <div id="sequences" align="center"> 
+      <div id="title" align="center"> 
 
 	<font size="18">Sequence Choices</font>
 
@@ -34,19 +26,25 @@
 
       </div>
 
+      <div id="sequences">
+
+	<div data-ng-repeat="sequence in sequences">
+	  <button class="chooseSeq" data-ng-click="startSequence(sequence)">{{sequence[0]}}</button>
+	  <hr>
+	</div>
+
+      </div>
 
       <div id="optionsButtonDiv" align="center">
-	<button id="openOptionsButton">Options</button>
+	<button class="options" id="openOptionsButton" data-ng-click="gotoOptions()">Options</button>
       </div>
 
 
       <div id="picture" align="center">
-	        <div style="text-align: center;"><IMG SRC="icon.png" ALT="image" style="PADDING-TOP: 75px"></div></a>
+	        <div style="text-align: center;"><img src="img/icon.png" alt="image" style="padding-top: 25px"></div>
       </div>
 
     </div>
-
-    <script src="js/sequenceChoosing.js"></script>
 
   </body>
 
