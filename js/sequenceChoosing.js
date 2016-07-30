@@ -6,9 +6,11 @@ var app = angular.module('sequenceChoosingApp', []);
 app.controller('sequenceChoosingController', function($scope){
 
     chrome.storage.local.get({
-	sequences: []
+	sequences: [],
+    theme: ""
     }, function(items){
 	$scope.sequences = items.sequences;
+    $scope.theme = items.theme;
 	$scope.$apply();
     });
 

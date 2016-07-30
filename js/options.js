@@ -10,9 +10,12 @@ var app = angular.module('optionsPageApp', []);
 app.controller('optionsPageController', function($scope){
 
     chrome.storage.local.get({
-	sequences: []
+	    sequences: [],
+        theme: ""
     }, function(items) {
-	$scope.sequences = items.sequences;
+    $scope.theme = items.theme;
+
+    $scope.sequences = items.sequences;
 	$scope.currentSequence = $scope.sequences[0];
 	$scope.currentSequenceWebsites = $scope.copyArray($scope.currentSequence[0][1]);
 	$scope.newWebsiteS = '';
@@ -22,6 +25,7 @@ app.controller('optionsPageController', function($scope){
 	$scope.newWebsiteH = '';
 	$scope.newWebsiteF = '';
 	$scope.newWebsiteA = '';
+
 	$scope.$apply();
     });
 
@@ -149,6 +153,13 @@ app.controller('optionsPageController', function($scope){
 	    newArray[i] = JSON.parse(JSON.stringify(oldArray[i]));
 	}
 	return newArray;
+    }
+
+    //save the theme
+    $scope.saveTheme = function() {
+        chrome.storage.local.set({
+            theme: $scope.theme
+        });
     }
 
 });

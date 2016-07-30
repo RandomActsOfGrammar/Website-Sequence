@@ -1,0 +1,56 @@
+/************************************
+ * General CSS for Website-Sequence *
+ ************************************/
+::-webkit-scrollbar {
+    background-color: white;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #d0d0d0;
+}
+
+::-webkit-scrollbar-corner {
+    background-color: white;
+}
+
+ ::-webkit-scrollbar-button {
+     display: none;
+ }
+
+/*Dark Theme*/
+ .dark {
+     background-color: black;
+     color: white;
+ }
+
+ .dark button {
+     background-color: #454545;
+     border-color: #454545;
+     color: white;
+ }
+
+ .dark input,
+ .dark select {
+     background-color: black;
+     color: white;
+ }
+
+.dark ::-webkit-scrollbar {
+    background-color: black;
+ }
+
+.dark ::-webkit-scrollbar-track {
+    background-color: black;
+}
+
+.dark ::-webkit-scrollbar-track-piece {
+    background-color: black;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background-color: #454545;
+}
+
+.dark ::-webkit-scrollbar-corner {
+    background-color: black;
+}

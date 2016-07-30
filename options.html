@@ -1,34 +1,43 @@
 <html>
 
-<head> 
+<head>
   <title>Website-Sequence Options</title>
+  <link rel="stylesheet" type="text/css" href="css/options.css">
+  <link rel="stylesheet" type="text/css" href="css/website-sequence.css">
 
   <script src="js/angular.min.js"></script>
   <script src="js/options.js"></script>
-  <link rel="stylesheet" type="text/css" href="css/options.css">
 </head>
 
-<div id="wrap" ng-app="optionsPageApp" ng-controller="optionsPageController">
+<body  ng-app="optionsPageApp" ng-controller="optionsPageController" data-ng-class="theme">
+
+<div id="wrap">
     <div id="left_col">
         <font size="18">Website-Sequence Options</font>
 
 	<br>
 	<br>
 
-	<form id="NewSequenceForm">
-	    New Sequence Name:<br>
-	    <input type="text" name="newname" id="newname" data-ng-model="newSequenceName">
-	    
+    <div style="float: right;">
+        Theme: <br>
+        <select data-ng-model="theme" data-ng-change="saveTheme()" style="width: 100px;">
+            <option value="">Light</option>
+            <option value="dark">Dark</option>
+        </select>
+    </div>
+
+    <form id="NewSequenceForm">
+        New Sequence Name:<br>
+        <input type="text" name="newname" id="newname" data-ng-model="newSequenceName">
+
 	    <br>
-	    <br>
-	  
-	    <button id="newlist" class="add" data-ng-click="addSequence()">New Sequence</button>
-	    
-	</form>
-	
+        <br>
+        <button id="newlist" class="add" data-ng-click="addSequence()">New Sequence</button>
+    </form>
+
 	<br>
 	<br>
-  
+
 	<big>Sequences:</big>
 	<br>
 	<div class="colHolder">
@@ -42,9 +51,9 @@
 	</div>
 
 	<br>
-	
+
 	<div id="status"></div> <!--?-->
-	
+
 	Add new website:
 	<br>
 	<div class="colHolder">
@@ -55,7 +64,7 @@
 	    URL: <input type="text" name="newurl" id="newurl" data-ng-model="newWebsiteUrl" size="35">
 	  </div>
 	</div>
-	
+
 	<input type="checkbox" name="days" data-ng-false-value="''" data-ng-true-value="'s'" data-ng-model="newWebsiteS">
 	<label>Sunday</label>
 	<input type="checkbox" name="days" data-ng-false-value="''" data-ng-true-value="'m'" data-ng-model="newWebsiteM">
@@ -76,7 +85,7 @@
 			    title="If the index is an index within the list, the new website is placed at the given index and pushes the website at that location and those after it down.">
 	<hr>
 
-	
+
 	<div id="websites">
 	  <div data-ng-repeat="website in currentSequenceWebsites track by $index">
 	      <p>{{$index+1}}.</p>
@@ -102,19 +111,19 @@
 	  </div>
 	</div>
 
-	
+
 	<br>
 	<br>
 
     </div>
-    
+
     <div id="right_col">
         <div style="text-align: right;"><img src="img/icon256.png" alt="image" style="padding-top: 75px"></div></a>
     </div>
 
 
 </div>
-  
+
 
 </body>
 
