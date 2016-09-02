@@ -1,7 +1,7 @@
 <html>
 
 <head>
-  <title>Website-Sequence Options</title>
+  <title>WebsiteSequence | Options</title>
   <link rel="stylesheet" type="text/css" href="css/options.css">
   <link rel="stylesheet" type="text/css" href="css/website-sequence.css">
 
@@ -13,7 +13,7 @@
 
 <div id="wrap">
     <div id="left_col">
-        <font size="18">Website-Sequence Options</font>
+        <font size="18">WebsiteSequence Options</font>
 
 	<br>
 	<br>
@@ -29,8 +29,8 @@
     <form id="NewSequenceForm">
         New Sequence Name:<br>
         <input type="text" name="newname" id="newname" data-ng-model="newSequenceName">
-
-	    <br>
+	<br>
+	<div id="newSequenceError" data-ng-show="newSequenceError">A sequence with that name already exists.</div>
         <br>
         <button id="newlist" class="add" data-ng-click="addSequence()">New Sequence</button>
     </form>
@@ -42,7 +42,7 @@
 	<br>
 	<div class="colHolder">
 	  <div class="leftColHolder">
-	    <select id="sequencechosen" data-ng-model="currentSequence" data-ng-options="seq as seq[0] for seq in sequences">
+	    <select id="sequencechosen" data-ng-model="currentSequence" data-ng-options="seq as seq.name for seq in sequences track by seq.name">
 	    </select>
 	  </div>
 	  <div class="rightColHolder">
@@ -105,7 +105,7 @@
 		     data-ng-true-value="'f'" data-ng-false-value="''"><label>F</label>
 	      <input type="checkbox" data-ng-init="website.A=website.days.includes('a')?'a':''" data-ng-model="website.A"
 		     data-ng-true-value="'a'" data-ng-false-value="''"><label>S</label>
-	      <button class="save"data-ng-click="saveWebsiteChanges($index,website.title,website.url,website.S,website.M,website.T,website.W,website.H,website.F,website.A)">Save</button>
+	      <button class="save" data-ng-click="saveWebsiteChanges($index,website.title,website.url,website.S,website.M,website.T,website.W,website.H,website.F,website.A)">Save</button>
 	      <button class="remove" data-ng-click="removeWebsite($index)">Remove</button>
 	    <hr>
 	  </div>

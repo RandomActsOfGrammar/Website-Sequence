@@ -10,7 +10,7 @@
     <script src="js/angular.min.js"></script>
     <script src="js/sequenceChoosing.js"></script>
 
-    <title>Sequence Choices</title>
+    <title>WebsiteSequence | Sequence Choices</title>
   </head>
 
 
@@ -30,7 +30,7 @@
       <div id="sequences">
 
 	<div data-ng-repeat="sequence in sequences">
-	  <button class="chooseSeq" data-ng-click="startSequence(sequence)">{{sequence[0]}}</button>
+	  <button class="chooseSeq" data-ng-click="startSequence(sequence)">{{sequence.name}}</button>
 	  <hr>
 	</div>
 

@@ -2,43 +2,30 @@
 
 //list of active tabs and their sequences and indices in object form
 //{tabid: int, websites: array of websites, index: int}
-var activetabs = [];
+var activetabs = {};
 
 
 //add a tab to the list of active tabs
 function addTab(tab, websiteList){
     var tabObj = {tabid: tab.id, websites: websiteList, index: 0};
-    activetabs.push(tabObj);
+    activetabs[tab.id] = tabObj;
     return tabObj;
 }
 
 
 //find the specified tab's thing in the list if it exists
 function findTab(tabid){
-    var i = 0;
-    while (i < activetabs.length){
-	if (activetabs[i].tabid == tabid){
-	    return activetabs[i];
-	}
-	i++;
+    var tabObj = activetabs[tabid];
+    if (typeof tabObj === "undefined"){
+	return null;
     }
-    return null;
+    return tabObj;
 }
 
 
 //remove the tab with the given ID from the active list
 function removeTab(tabID){
-    var i = 0;
-    var found = false;
-    while (!found && i < activetabs.length){
-	if (activetabs[i].tabid == tabID){
-	    found = true;
-	}
-	else{
-	    i++;
-	}
-    }
-    activetabs.splice(i, 1);
+    delete activetabs[tabID];
 }
 
 
@@ -87,7 +74,10 @@ function nextWebsite(tabObj){
 		}
 	    }
 	    if (found){
-		var newurl = "http://"+nextwebsite.url;
+		var newurl = nextwebsite.url;
+		if (newurl.indexOf('http://') != 0 && newurl.indexOf('https://') != 0) {
+		    newurl = 'http://' + newurl;
+		}
 		tabObj.index++;
 		chrome.tabs.update(tab.id, {url: newurl},
 			function(){});
@@ -112,8 +102,6 @@ function actionClicked(){
 		nextWebsite(tabObj);
 	    }
 	    else{
-		//open page in new tab to choose sequence
-		//chrome.tabs.create({ url: "sequenceChoosing.html" });
 		//open page in same tab to choose sequences
 		chrome.tabs.update(tab.id, {url: "sequenceChoosing.html"},
 			function(){});

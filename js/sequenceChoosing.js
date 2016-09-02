@@ -5,17 +5,18 @@
 var app = angular.module('sequenceChoosingApp', []);
 app.controller('sequenceChoosingController', function($scope){
 
-    chrome.storage.local.get({
+    chrome.storage.sync.get({
 	sequences: [],
-    theme: ""
+	theme: ""
     }, function(items){
 	$scope.sequences = items.sequences;
-    $scope.theme = items.theme;
+	$scope.theme = items.theme;
 	$scope.$apply();
     });
 
     $scope.startSequence = function(sequence) {
-	chrome.runtime.sendMessage({websites: sequence[1]},
+	//chrome.runtime.sendMessage({websites: sequence[1]},
+	chrome.runtime.sendMessage({websites: sequence.websites},
 				   function(response){});
     }
 

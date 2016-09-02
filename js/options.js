@@ -3,21 +3,22 @@
 
 //STORAGE things
 //sequences  array of different lists in form hopefully name, websites
-//           sequences = [[name, [website1, website2]], [name2, [w1,w2,w3]]]
+//           sequences = [{name: name, websites: [website1, website 2]}, {name: name2, websites: [w1,w2,w3]}]
+//                            old version was [[name, [website1, website2]], [name2, [w1,w2,w3]]]
 //                   website = {title:"name", url: "whatever", days: "smtwhfa"}
 
 var app = angular.module('optionsPageApp', []);
 app.controller('optionsPageController', function($scope){
 
-    chrome.storage.local.get({
-	    sequences: [],
+    chrome.storage.sync.get({
+	sequences: [],
         theme: ""
     }, function(items) {
-    $scope.theme = items.theme;
+	$scope.theme = items.theme;
 
-    $scope.sequences = items.sequences;
+	$scope.sequences = items.sequences;
 	$scope.currentSequence = $scope.sequences[0];
-	$scope.currentSequenceWebsites = $scope.copyArray($scope.currentSequence[0][1]);
+	$scope.currentSequenceWebsites = $scope.copyArray($scope.currentSequence.websites);
 	$scope.newWebsiteS = '';
 	$scope.newWebsiteM = '';
 	$scope.newWebsiteT = '';
@@ -25,6 +26,7 @@ app.controller('optionsPageController', function($scope){
 	$scope.newWebsiteH = '';
 	$scope.newWebsiteF = '';
 	$scope.newWebsiteA = '';
+	$scope.newSequenceError = false;
 
 	$scope.$apply();
     });
@@ -32,7 +34,7 @@ app.controller('optionsPageController', function($scope){
     //change currentSequenceWebsites when currentSequence changes
     $scope.$watch('currentSequence', function (newValue, oldValue, $scope) {
 	if (newValue) {
-	    $scope.currentSequenceWebsites = $scope.copyArray(newValue[1]);
+	    $scope.currentSequenceWebsites = $scope.copyArray(newValue.websites);
 	}
     });
 
@@ -49,23 +51,25 @@ app.controller('optionsPageController', function($scope){
 	    return;
 	}
 	for (var i = 0; i < $scope.sequences.length; i++){
-	    if ($scope.sequences[i][0] == $scope.newSequenceName){
+	    if ($scope.sequences[i].name == $scope.newSequenceName){
+		$scope.newSequenceError = true;
 		return; //display error message
 	    }
 	}
-	var newSequence = [$scope.newSequenceName, []];
+	$scope.newSequenceError = false;
+	var newSequence = {name: $scope.newSequenceName, websites: []};
 	$scope.sequences.push(newSequence);
 	$scope.currentSequence = newSequence;
 	$scope.newSequenceName = '';
-	chrome.storage.local.set({
+	chrome.storage.sync.set({
 	    sequences: $scope.sequences
 	}, function(){});
     }
 
     //remove the current sequence
     $scope.removeCurrentSequence = function() {
-	var index = $scope.sequences.indexOf($scope.currentSequence);
-	var reallyRemove = confirm("Are you sure you want to remove the sequence " + $scope.currentSequence[0] + "?");
+	var index = $scope.findCurrentSequenceIndex();
+	var reallyRemove = confirm("Are you sure you want to remove the sequence " + $scope.currentSequence.name + "?");
 	if (reallyRemove){
 	    $scope.sequences.splice(index, 1);
 	    if (index < $scope.sequences.length){
@@ -74,7 +78,7 @@ app.controller('optionsPageController', function($scope){
 	    else{
 		$scope.currentSequence = $scope.sequences[index-1];
 	    }
-	    chrome.storage.local.set({
+	    chrome.storage.sync.set({
 	        sequences: $scope.sequences
 	    }, function(){});
 	}
@@ -107,41 +111,44 @@ app.controller('optionsPageController', function($scope){
 	$scope.newWebsiteF = '';
 	$scope.newWebsiteA = '';
 	var index = parseInt($scope.newWebsiteIndex);
-	if (isNaN(index) || index-1 < 0 || index-1 >= $scope.currentSequence[1].length){
-	    $scope.currentSequence[1].push(newWebsite);
+	if (isNaN(index) || index-1 < 0 || index-1 >= $scope.currentSequence.websites.length){
+	    $scope.currentSequence.websites.push(newWebsite);
 	}
 	else{
-	    $scope.currentSequence[1].splice(index-1, 0, newWebsite);
+	    $scope.currentSequence.websites.splice(index-1, 0, newWebsite);
 	}
-	$scope.currentSequenceWebsites = $scope.copyArray($scope.currentSequence[1]);
+	$scope.currentSequenceWebsites = $scope.copyArray($scope.currentSequence.websites);
 	$scope.newWebsiteIndex = $scope.currentSequenceWebsites.length + 1;
-	chrome.storage.local.set({
+	$scope.sequences[$scope.findCurrentSequenceIndex()] = $scope.currentSequence;
+	chrome.storage.sync.set({
 	    sequences: $scope.sequences
 	}, function(){});
     }
 
     //save changes made to the website
     $scope.saveWebsiteChanges = function(index,title,url,s,m,t,w,h,f,a) {
-	$scope.currentSequence[1][index].title = title;
-	$scope.currentSequence[1][index].url = url;
-	$scope.currentSequence[1][index].days = s + m + t + w + h + f + a;
-	$scope.currentSequence[1][index].S = s;
-	$scope.currentSequence[1][index].M = m;
-	$scope.currentSequence[1][index].T = t;
-	$scope.currentSequence[1][index].W = w;
-	$scope.currentSequence[1][index].H = h;
-	$scope.currentSequence[1][index].F = f;
-	$scope.currentSequence[1][index].A = a;
-	chrome.storage.local.set({
+	$scope.currentSequence.websites[index].title = title;
+	$scope.currentSequence.websites[index].url = url;
+	$scope.currentSequence.websites[index].days = s + m + t + w + h + f + a;
+	$scope.currentSequence.websites[index].S = s;
+	$scope.currentSequence.websites[index].M = m;
+	$scope.currentSequence.websites[index].T = t;
+	$scope.currentSequence.websites[index].W = w;
+	$scope.currentSequence.websites[index].H = h;
+	$scope.currentSequence.websites[index].F = f;
+	$scope.currentSequence.websites[index].A = a;
+	$scope.sequences[$scope.findCurrentSequenceIndex()] = $scope.currentSequence;
+	chrome.storage.sync.set({
 	    sequences: $scope.sequences
 	}, function(){});
     }
 
     //remove the website at index from the sequence
     $scope.removeWebsite = function(index) {
-	$scope.currentSequence[1].splice(index, 1);
-	$scope.currentSequenceWebsites = $scope.copyArray($scope.currentSequence[1]);
-	chrome.storage.local.set({
+	$scope.currentSequence.websites.splice(index, 1);
+	$scope.currentSequenceWebsites = $scope.copyArray($scope.currentSequence.websites);
+	$scope.sequences[$scope.findCurrentSequenceIndex()] = $scope.currentSequence;
+	chrome.storage.sync.set({
 	    sequences: $scope.sequences
 	}, function(){});
     }
@@ -155,9 +162,19 @@ app.controller('optionsPageController', function($scope){
 	return newArray;
     }
 
+    //find the index of the current sequence in the list of sequences
+    $scope.findCurrentSequenceIndex = function() {
+	for (var i = 0; i < $scope.sequences.length; i++){
+	    if ($scope.sequences[i].name == $scope.currentSequence.name) {
+		return i;
+	    }
+	}
+	return -1;
+    }
+
     //save the theme
     $scope.saveTheme = function() {
-        chrome.storage.local.set({
+        chrome.storage.sync.set({
             theme: $scope.theme
         });
     }
